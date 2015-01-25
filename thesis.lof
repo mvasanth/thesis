@@ -1,0 +1,37 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 1}{\ignorespaces Input Sequence Size does not impact the performance of algorithms\relax }}{35}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 2}{\ignorespaces Bounded Waste achieves better performance\relax }}{36}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 3}{\ignorespaces All algorithms achieve comparable performance\relax }}{37}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 4}{\ignorespaces BW achieves better performance, RC and RR are comparable\relax }}{38}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 5}{\ignorespaces Reordering Ratio is small for large number of colours\relax }}{39}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 6}{\ignorespaces Variation in the reordering ratios across different buffer sizes\relax }}{40}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 7}{\ignorespaces TLC achieves a good performance when $C = 2 * k$\relax }}{42}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 8}{\ignorespaces TLC' achieves a good performance when $C <= k$\relax }}{43}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 9}{\ignorespaces TLC' has significantly lower switches\relax }}{44}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 10}{\ignorespaces TLC' has significantly higher cost ratio\relax }}{46}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 11}{\ignorespaces TLC' achieves a better performance than MAP and TLC\relax }}{47}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 12}{\ignorespaces TLC' achieves a better switch ratio than MAP and TLC\relax }}{48}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 13}{\ignorespaces TLC' has a lower cost ratio than MAP and TLC\relax }}{49}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 14}{\ignorespaces TLC' performs poorly when comparing cost ratios with MAP and TLC\relax }}{50}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 15}{\ignorespaces TLC' achieves a better switch ratio than MAP and TLC\relax }}{52}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 16}{\ignorespaces TLC' has significantly higher cost ratios than TLC and MAP\relax }}{53}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 17}{\ignorespaces TLC' has significantly lower switch ratios than TLC and MAP\relax }}{54}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 18}{\ignorespaces TLC' performs better than TLC and MAP when cost ratios are compared\relax }}{55}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 19}{\ignorespaces TLC' achieves a better switch ratio than MAP and TLC for small number of colours\relax }}{56}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 20}{\ignorespaces TLC' achieves a better switch ratio than MAP and TLC for small number of colours\relax }}{57}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 21}{\ignorespaces All algorithms are comparable\relax }}{59}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 22}{\ignorespaces The cost ratio for TLC' is more than two times the cost ratio for TLC and MAP\relax }}{60}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 23}{\ignorespaces TLC' fails to permute for $k = 10, 20 and C = 5, 10$\relax }}{61}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 24}{\ignorespaces Non-identical switch ratio for $k = 20$ and $C = 5$\relax }}{62}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 25}{\ignorespaces TLC' has better switch ratio when $k >= 5 \times C$\relax }}{64}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 26}{\ignorespaces TLC' has better switch ratio\relax }}{65}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 27}{\ignorespaces TLC' has better cost ratio\relax }}{66}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 28}{\ignorespaces TLC' has a significantly better switch ratio\relax }}{68}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 29}{\ignorespaces TLC performs exceptionally well\relax }}{70}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 30}{\ignorespaces TLC' has a significantly better switch ratio\relax }}{72}
+\contentsline {figure}{\numberline {\global \advance \c@myfigcount \c@figure \relax 31}{\ignorespaces TLC' has a significantly better switch ratio when $k \geq 5 \times C$\relax }}{74}
+\addvspace {10\p@ }

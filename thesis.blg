@@ -1,0 +1,54 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: thesis.aux
+A level-1 auxiliary file: chapter1.aux
+A level-1 auxiliary file: chapter2.aux
+A level-1 auxiliary file: chapter3.aux
+A level-1 auxiliary file: chapter4.aux
+A level-1 auxiliary file: chapter5.aux
+A level-1 auxiliary file: chapter6.aux
+The style file: cubiblio.bst
+Database file #1: references.bib
+Warning--empty booktitle in adamaszek2013reordering
+You've used 15 entries,
+            2361 wiz_defined-function locations,
+            607 strings with 6647 characters,
+and the built_in function-call counts, 6450 in all, are:
+= -- 495
+> -- 152
+< -- 9
++ -- 56
+- -- 41
+* -- 323
+:= -- 711
+add.period$ -- 76
+call.type$ -- 15
+change.case$ -- 33
+chr.to.int$ -- 0
+cite$ -- 16
+duplicate$ -- 686
+empty$ -- 669
+format.name$ -- 55
+if$ -- 1489
+int.to.chr$ -- 0
+int.to.str$ -- 15
+missing$ -- 150
+newline$ -- 79
+num.names$ -- 15
+pop$ -- 289
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 197
+stack$ -- 0
+substring$ -- 238
+swap$ -- 402
+text.length$ -- 9
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 1
+while$ -- 38
+width$ -- 17
+write$ -- 173
+(There was 1 warning)

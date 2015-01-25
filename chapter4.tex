@@ -1,0 +1,84 @@
+\chapter{New Algorithm}
+
+In this chapter, we present our new algorithm for the Reordering Buffer Management problem along with the analysis. Section \ref{newPreliminaries} describes the mathematical notations used to formally describe the problem. Section \ref{modifiedtlc} describes our algorithm and presents the pseudo-code for our algorithm. Section \ref{analysismtlc} presents our analysis for the algorithm. 
+
+\section{Preliminaries} \label{newPreliminaries}
+
+Staying consistent with the other algorithms, we have used the notation $I = 1 \ldots N$ to denote the input sequence, where $N$ is the size of the sequence. $B$ represents the reordering buffer and $k$ denotes the buffer size. Our model uses $C = 1 \ldots c$ to represent the number of colours that can be present in the input sequence and the weight/cost for colour $c$ is represented as $w(c)$. We use the notation $c_{min}$ to denote the colour that has the lowest cost. $O = \pi\{1 \ldots N\}$ represents our output sequence which is a permutation of the input sequence $I$. 
+
+During one run of the algorithm, $i$ denotes the \textit{current input item}, which is the first item of the input sequence that has not yet been processed. The colour of this item is denoted as $c(i)$. This item has to be added to the buffer $B$ before it can be output. The colour that has presently been assigned to the output sequence is called the \textit{current active colour} denoted by $c_{active}$. Since we only consider lazy algorithms, we change the active colour only when we no longer have an item of the colour $c_{active}$ in the buffer. 
+
+Our algorithm maintains and updates a monotonically increasing counter which we denote as $\Phi_i$, which is the counter for the item $i$. At every step where a new active colour is to be chosen, our algorithm inspects the values of this counter for all items of a particular colour $c$ and then selects a new active colour as described in Section \ref{modifiedtlc}.
+
+\section{New Algorithm/ModifiedTLC} \label{modifiedtlc}
+
+Our algorithm works as follows: For the first $k$ steps of the algorithm, we add the first $k$ items of the input sequence into the buffer. Since we follow the lazy strategy, the eviction process begins only after the first $k$ steps, that is, we start evicting items from steps $k + 1, k + 2, \ldots k + N$. Since we only evict one item per step of the algorithm, our buffer is emptied at step $k + N$. 
+
+Initially the counter $\Phi_i = 0$, for all items in the buffer. Whenever we have to choose a new active colour, we check if the sum of counters of all items of a particular colour $c$ is greater than the weight for that colour, $w(c)$. That is, $\sum_{c(i) = c} \Phi_i > w(c)$, if so we select colour $c$ to be the new active colour, $c_{active}$, and evict one item of that colour. If the buffer has no such colour $c$ for which the sum of counters is greater than the weight of the associated colour, then we select the colour with the lowest cost to be the new active colour and increment the counters of all items in the buffer with the value $\frac{w(c_{min})}{k}$. 
+
+To optimize the performance of our algorithm, we store the sums of these counters as an array upfront, and track the number of times for which our counters need to be updated before the active colour is chosen. To do this we use two arrays of size $C$ to store the sums and the count of the items of a particular colour in the buffer. We populate these arrays as a first step when we have to choose a new active colour. Using these aggregated values, we perform one update at the end of our active colour selection process making our algorithm time efficient. Doing this prevents us looping over the buffer to compute values of the sums, thereby reducing our running time to $O(k)$. 
+
+The pseudo-code for our algorithm is presented below:
+
+\begin{algorithm}
+\caption{ModifiedTLC}
+\label{modifiedtlcpseudocode}
+\KwIn{Input stream $I = 1 \ldots N$ \newline Buffer
+$B$ of size $k$}
+\KwOut{Output Stream $O = \pi\{1 \ldots N\}$}
+\SetKwFunction{add}{add}
+\SetKwFunction{RemoveMTLC}{RemoveMTLC}
+\SetKwFunction{ModifiedTLCActiveColour}{ModifiedTLCActiveColour}
+Initialize the buffer, $B \gets NIL$ \;
+\While{$|B| \leq k$}{
+	\add($i$) \;
+}
+Initialize $c_{active} \gets -1$ \;
+\For{$i \gets k + 1$ \KwTo $N$}{
+	\uIf{$c_{active} \notin B$}{
+		$c_{active} \gets \ModifiedTLCActiveColour(B)$ \;
+	}
+	\RemoveMTLC($c_{active}$) \;
+	\add($i$) \;
+}
+\While{$|B| \neq NIL$}{
+	\uIf{$c_{active} \notin B$}{
+		$c_{active} \gets \ModifiedTLCActiveColour(B)$ \;
+	}
+	\RemoveMTLC($c_{active}$) \;
+}
+\end{algorithm}
+
+\begin{function*}
+\caption{ModifiedTLCActiveColour($B$)}
+\label{mtlcfunc}
+\KwIn{Buffer $B$ of size $k$}
+\KwOut{New active colour $c_{active}$}{
+\For{every item $i \in B$}{
+	$S^c = \sum_{c(i) = c} \Phi_i$ \;
+	$C^c$ = number of items of colour $c$ in $B$ \;
+}
+$c_{active} \gets c_{min}$ \;
+$j = 0$ \;
+\For{every item $i \in B$}{
+	$\sigma_c = S^c + (C^c \times \frac{w(c_{min})}{k} \times j)$ \;
+	\uIf{$\sigma_c \geq w(c)$}{
+		$c_{active} \gets c$ \;
+		break \;
+	}
+	$j \gets j + 1$ \;
+}
+add $\frac{w(c_{min})}{k} \times j$ to the counter $\Phi_i$ of every item in the buffer \;
+\KwRet{$c_{active}$} \;
+}
+\end{function*}
+
+\begin{function*}
+\caption{RemoveMTLC($c_{active}$)}
+\label{removemtlc}
+\KwIn{colour $c_{active}$}{
+remove the first item of colour $c_{active}$ from the buffer \;
+}
+\end{function*}
+
+\section{Analysis} \label{analysismtlc}

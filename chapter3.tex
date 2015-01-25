@@ -1,0 +1,577 @@
+\chapter{Existing Algorithms/Pseudocodes} \label{algorithms}
+
+This chapter presents the different algorithms available for the Reordering Buffer Management problem along with their pseudo-codes and a brief insight into their analysis. In Section \ref{preliminaries} we describe our problem with appropriate mathematical notations that will be used throughout the thesis. Section \ref{bw} through Section \ref{tlc} describe the different algorithms along with their pseudo-codes. 
+
+\begin{table}[ht]
+\label{implalgo}
+\caption{Summary of Algorithms}
+\centering
+\begin{tabular}{l l l l}
+\hline \hline
+Algorithm & Cost Function & Competitive Ratio & Thesis Section \\
+\hline
+First-In-First-Out (FIFO) & Uniform & $\Omega(\sqrt{k})$ & \ref{fifo} \\ 
+Lease Recently Used (LRU) & Uniform & $\Omega(\sqrt{k})$ & \ref{lru} \\ 
+Largest Colour First (LCF) & Uniform & $\Omega(k)$ & \ref{lcf} \\ 
+Bounded Waste & Uniform & $O(\log^2 k)$ & \ref{bw} \\
+Maximum Adjusted Penalty &  Non-Uniform & $O(\log k)$ & \ref{map} \\
+Random Choice & Uniform & not known yet & \ref{rc} \\
+Round Robin & Uniform & not known yet & \ref{rr} \\
+Threshold or Lowest Cost & Non-Uniform & $O(\frac{\log k}{\log \log k})$ & \ref{tlc} \\
+Optimal Offline LP & Uniform & $O(1)$ & \ref{} \\
+New Algorithm & Non-Uniform & not known yet & \ref{modifiedtlc} \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Preliminaries} \label{preliminaries}
+
+Our model consists of a server which receives the input sequence and a reordering buffer. Our input sequence has $N$ items and we denote the sequence as 1 \ldots $N$. Each item in the input sequence is characterized by an attribute and the input sequence needs to be reordered based on this attribute. For our model we assume that the attribute to be processed is the colour of the item. In our notation, $C$ denotes the number of colours that can be present in the input sequence. We use the notation $B$ to denote the
+random access buffer which is a linked list of size $k$ ($k < N$). We use the notation $i$ to denote the \textit{current input item}, which is the first item in the input sequence that has not yet been processed. The colour of the current input item is denoted by $c(i)$. This item is $i$ is added to the buffer $B$ after which it will be processed. The reordering buffer $B$ generates the output sequence which is a permutation of the input sequence denoted as $\pi\{1 \ldots N\}$. Note that the reordering buffer is initially empty and must end up empty after the
+permutation. The colour which is currently assigned to the output sequence is called the \textit{current active colour}. We use the notation $c_{active}$ to denote the current active colour. 
+
+A continual sub-sequence of items with the same colour in the output sequence is
+called a \textit{colour block}. A \textit{colour change} occurs when there is a
+colour switch between two sub-sequences of different colours. The cost incurred at this
+colour change is denoted as $C_A$, which is the cost incurred for the
+strategy $A$. 
+
+An online strategy is a strategy in which the input sequence is not known in
+advance. We only consider online strategies for our experiments. Online strategies are
+evaluated using competitive analysis where every strategy is compared against an optimal
+offline strategy. An offline strategy is where the input sequence is known in advance. Let $C_{OPT}$ denote the cost of the optimal offline
+strategy, then an online strategy is said to be \textit{c-competitive} if it
+produces a cost which is at most of $c \times C_{OPT}$, that is $C_A = c \times C_{OPT}$.
+
+\section{Generic Pseudocodes/Generic Methods} \label{genPseudocodes}
+
+In this section we present the basic structure and the common methods used by most of the reordering buffer management algorithms presented in this thesis. Unless otherwise specified, the algorithms use the structure as presented in this section. The \textit{add} and \textit{remove} methods are also common to most of our algorithms. These are also presented in this section. 
+
+The pseudo-code below presents the basic structure for most of our reordering buffer management algorithms: 
+
+\begin{algorithm} [ht] 
+\caption{Basic Reordering Buffer Management Structure}
+\label{basicStructure}
+\KwIn{Input stream $I = 1 \ldots N$ \newline Buffer
+$B$ of size $k$}
+\KwOut{Output Stream $O = \pi\{1 \ldots N\}$}
+\SetKwFunction{add}{add}
+\SetKwFunction{remove}{remove}
+\SetKwFunction{ChooseNewActiveColour}{ChooseNewActiveColour}
+Initialize the buffer, $B \gets NIL$ \;
+\While{$|B| \leq k$}{
+	\add($i$) \;
+}
+Initialize $c_{active} \gets -1$ \;
+\For{$i \gets k + 1$ \KwTo $N$}{
+	\uIf{$c_{active} \notin B$}{
+		$c_{active} \gets \ChooseNewActiveColour(B)$ \;
+	}
+	\remove($c_{active}$) \;
+	\add($i$) \;
+}
+\While{$|B| \neq NIL$}{
+	\uIf{$c_{active} \notin B$}{
+		$c_{active} \gets \ChooseNewActiveColour(B)$ \;
+	}
+	\remove($c_{active}$) \;
+}
+\end{algorithm}
+
+The pseudo-codes for the \textit{add}, \textit{remove} and the \textit{ChooseNewActiveColour} methods are as given below. The details of the \textit{ChooseNewActiveColour} method depends on the algorithm in question. 
+
+\begin{function*} [ht]
+\caption{add($i$)}
+\label{genadd}
+\KwIn{$i$, the input item to be added}
+add $i$ to the end of the list \;
+\end{function*}
+
+\begin{function*} [ht]
+\caption{remove($c_{active}$)}
+\label{removemtlc}
+\KwIn{colour $c_{active}$}{
+remove the first item of colour $c_{active}$ from the buffer \;
+}
+\end{function*}
+
+\begin{function*} [ht]
+\caption{ChooseNewActiveColour($B$)}
+\label{mtlcfunc}
+\KwIn{Buffer $B$ of size $k$}
+\KwOut{New active colour $c_{active}$}{
+algorithm specific action \;
+\KwRet{$c_{active}$} \;
+}
+\end{function*}
+
+\section{First In First Out} \label{fifo}
+The FIFO strategy operates by assigning time stamps to the items stored in the
+buffer. When an item $\sigma_i$ is to be stored in the buffer, the FIFO
+strategy checks if the colour $c(\sigma_i)$ already exists in the buffer, if it
+does, then the item $\sigma_i$ gets the same time stamp as the other items with
+the colour $c(\sigma_i)$, otherwise it gets a new time stamp. Time stamps  are
+updated according to the current system time. After the buffer is full, the FIFO 
+strategy starts evicting items that have the oldest time stamp in the buffer.
+The pseudo-code for the FIFO strategy is presented below: 
+
+\begin{algorithm}
+\caption{FIFO}
+\label{firstinfirstout}
+\KwIn{Input stream $\sigma = \sigma_1, \sigma_2 \ldots \sigma_n$ \newline Buffer
+$B$ of size $k$}
+\KwOut{Stream $\rho = \rho_1, \rho_2, \ldots \rho_n$}
+\SetKwFunction{add}{add}
+\SetKwFunction{remove}{remove}
+Initialize the buffer, $B \gets NIL$ \;
+\For{$i \gets 1$ \KwTo $n$}{
+	\uIf{$|B| < k$}{
+		\add($\sigma_i$) \;
+	} 
+	\Else{
+		$c(\sigma) \gets$ colour with the oldest time stamp in $B$ \;
+		\remove($c(\sigma)$) \;
+		\add($\sigma_i$) \;
+	}
+}
+\While{$|B| \neq NIL$}{
+	$c(\sigma) \gets$ the colour with the oldest time stamp in $B$ \;
+	\remove($c(\sigma)$) \;
+}
+\end{algorithm}
+
+\begin{function*}
+\caption{Add-FIFO($\sigma_i$)}
+\label{addfifo}
+\KwIn{$\sigma_i$, the input item to be added}
+\uIf{$ \exists$ an item $x \in B, $ such that $c(x) = c(\sigma_i)$}{
+	$t(\sigma_i) \gets t(x)$ \;
+} 
+\Else{
+	$t(\sigma_i) \gets$ current system time \;
+}
+add $\sigma_i$ to the end of the buffer \;
+\end{function*}
+
+\begin{function*}
+\caption{remove(${c(\sigma)}$)}
+\label{removefifo}
+\KwIn{colour $c(\sigma)$}{
+remove all items of colour $c(\sigma)$ from the buffer \;
+}
+\end{function*}
+
+Racke, Sohler and Westermann \cite{racke2002online}, present an
+$\Omega(\sqrt{k})$ lower bound on the competitive ratio of FIFO. Assume $l =
+\sqrt{k-1}$ is an even integer, with the set of colours $c_1, c_2 \ldots c_l,
+x,y$  and the input sequence $\sigma = {(c_1c_2\ldots c_lx^kc_1c_2\ldots
+c_ly^k)}^{l/2}$. Whenever a colour block appears in the input sequence, the FIFO
+strategy removes all the previous items from the sorting buffer, since they are
+all ``older''. It can be seen that for each of these blocks this results in $l$
+colour changes. Hence according to the FIFO strategy, at least $2l.l/2 = k - 1$
+colour changes occur in the output sequence.
+
+\section{Least Recently Used} \label{lru}
+Like FIFO, the LRU strategy also assigns time stamps to the items in the buffer.
+Initially the time stamps for all the items in the buffer are set to zero. When
+an item $\sigma_i$ is to be stored in the buffer, the LRU strategy checks if the
+colour $c(\sigma_i)$ already exists in the buffer, if it does not exist in the
+buffer, then the item is added to the buffer and it gets a new time stamp,
+which is the current system time.
+If an item of colour $c(\sigma_i)$ already exists in the buffer, then the item is
+added to the buffer and the time stamps of all the items of colour $c(\sigma_i)$
+are updated to the current system time. When the buffer is full, LRU removes
+items that have the oldest time stamp.
+The pseudo-code for the LRU strategy is presented below:
+
+\begin{algorithm}
+\caption{LRU}
+\label{leastrecentlyused}
+\KwIn{Input stream $\sigma = \sigma_1, \sigma_2 \ldots \sigma_n$ \newline Buffer
+$B$ of size $k$}
+\KwOut{Stream $\rho = \rho_1, \rho_2, \ldots \rho_n$}
+Initialize the buffer, $B \gets NIL$ \;
+\SetKwFunction{add}{add}
+\SetKwFunction{remove}{remove}
+\For{$i \gets 1$ \KwTo $n$}{
+	\uIf{$|B| < k$}{
+		\add($\sigma_i$) \;
+	} 
+	\Else{
+		$c(\sigma) \gets$ colour with the oldest time stamp in $B$ \;
+		\remove($c(\sigma)$) \;
+		\add($\sigma_i$) \;
+	}
+}
+\While{$|B| \neq NIL$}{
+	$c(\sigma) \gets$ the colour with the oldest time stamp in $B$ \;
+	\remove($c(\sigma)$) \;
+}
+\end{algorithm}
+
+\begin{function*}
+\caption{Add-LRU($\sigma_i$)}
+\label{addlru}
+\KwIn{$\sigma_i$, the input item to be added}
+\uIf{$ \exists$ an item $x \in B, $ such that $c(x) = c(\sigma_i)$}{
+	$t(\sigma_i) \gets$ update time stamp to current time $\forall c(x) =
+	c(\sigma_i)$ \; } 
+\Else{
+	$t(\sigma_i) \gets$ current system time \;
+}
+add $\sigma_i$ to the end of the list \;\end{function*}
+
+As in the case of FIFO, the LRU strategy has a competitive ratio of
+$\Omega(\sqrt{k})$. It can be seen that for the input sequence defined in
+section \ref{fifo}, LRU produces the same output sequence as FIFO.
+
+\section{Largest Colour First} \label{lcf}
+The Largest Colour First strategy adds items into the buffer until the buffer is
+full. When the buffer is full, it selects the colour $c(\sigma)$, which has the
+maximum number of items in the buffer and removes all items of that colour,
+thereby clearing as many slots in the buffer as possible. The pseudo-code for
+the LCF strategy is presented below:
+
+\begin{algorithm}
+\caption{LCF}
+\label{largestcolourfirst}
+\KwIn{Input stream $\sigma = \sigma_1, \sigma_2 \ldots \sigma_n$ \newline Buffer
+$B$ of size $k$}
+\KwOut{Stream $\rho = \rho_1, \rho_2, \ldots \rho_n$}
+\SetKwFunction{add}{add}
+\SetKwFunction{remove}{remove}
+Initialize the buffer, $B \gets NIL$ \;
+\For{$i \gets 1$ \KwTo $n$}{
+	\uIf{$|B| < k$}{
+		\add($\sigma_i$) \;
+	} 
+	\Else{
+		$c(\sigma) \gets$ colour with maximum items in $B$ \;
+		\remove($c(\sigma)$) \;
+		\add($\sigma_i$) \;
+	}
+}
+\While{$|B| \neq NIL$}{
+	$c(\sigma) \gets$ the colour with maximum items in $B$ \;
+	\remove($c(\sigma)$) \;
+}
+\end{algorithm}
+
+\begin{function*}
+\caption{Add-LCF($\sigma_i$)}
+\label{addlcf}
+\KwIn{$\sigma_i$, the input item to be added}
+add $\sigma_i$ to the end of the list \;
+\end{function*}
+
+\section{Bounded Waste} \label{bw}
+The Bounded Waste strategy selects a current output colour $c(\rho_i)$ and
+continues to remove items of this colour until the buffer contains no items 
+of this colour. To decide the next current output colour, the strategy assigns a 
+\textit{penalty} $P_c$ to the colours in the buffer. The penalty for colour $c$
+is defined as the number of occurrences of colour $c$ in the buffer. Initially
+the penalties for all the colours are set to zero. At each colour change, the
+penalty for each colour $P_c$ is increased by the number of occurrences of
+colour $c$ in the buffer. All the items with colour $c'$ which has the
+maximum penalty $P_{c'}$ are removed from the buffer. The pseudo-code for the
+Bounded Waste strategy is presented below:
+
+\begin{algorithm}
+\caption{Bounded Waste}
+\label{boundedwaste}
+\KwIn{Input stream $\sigma = \sigma_1, \sigma_2 \ldots \sigma_n$ \newline Buffer
+$B$ of size $k$}
+\KwOut{Stream $\rho = \rho_1, \rho_2, \ldots \rho_n$}
+\SetKwFunction{add}{add}
+\SetKwFunction{remove}{remove}
+\SetKwFunction{colourWithMaxPenalty}{colourWithMaxPenalty}
+Initialize the buffer, $B \gets NIL$ \;
+\For{$i \gets 1$ \KwTo $n$}{
+	\uIf{$|B| < k$}{
+		\add($\sigma_i$) \;
+	} 
+	\Else{
+		\uIf{$c(\rho) \in B$}{
+			$c(\sigma) \gets c(\rho)$
+		}
+		\Else{
+			$c(\sigma) \gets$ \colourWithMaxPenalty($B$) \;
+		}
+		\remove($c(\sigma)$) \;
+		\add($\sigma_i$) \;
+	}
+}
+\While{$|B| \neq NIL$}{
+	\uIf{$c(\rho) \in B$}{
+		$c(\sigma) \gets c(\rho)$
+	}
+	\Else{
+		$c(\sigma) \gets$ \colourWithMaxPenalty($B$) \;
+	}
+	\remove($c(\sigma)$) \;
+}
+\end{algorithm}
+
+\begin{function*}
+\caption{colourWithMaxPenalty($B$)}
+\label{penalty}
+\KwIn{Buffer $B$ of size $k$}{
+\ForEach{colour $c$ in the buffer}{
+	$P_c \gets$ the number of occurrences of colour $c$}
+}
+$c' \gets$ $c(\max(P_c))$ \;
+$P_{c'} \gets 0$ \;
+return $c'$ \;
+\end{function*}
+
+\begin{function*} 
+\caption{Add-BW($\sigma_i$)}
+\label{addbw}
+\KwIn{$\sigma_i$, the input item to be added}
+add $\sigma_i$ to the end of the buffer \;
+\end{function*}
+
+\section{Maximum Adjusted Penalty} \label{map}
+The Maximum Adjusted Penalty strategy works well when each colour has a
+non-uniform \textit{weight} associated with it. In this case, each colour is has
+a non-uniform weight $b_c$ associated with it. The MAP strategy works by
+removing items of the active colour until no more items of this colour are
+available in the buffer. Like the BW strategy, MAP also assigns penalties to
+the colours in the buffer. The penalty $P_c$ for colour $c$ is the number of
+occurrences of colour $c$ which we denote as $n_c$, times the weight for colour
+$c$, i.e. $P_c = n_c . b_c$. The new active colour or the current output colour
+is selected as follows: for each colour $c'$ in the buffer, the strategy
+compares if $P_c - k . b_c \geq P_c' - k . b_c'$, if so, then $c'$ is selected
+as the new active colour and the counter is reset to zero for this colour. The
+pseudo-code for the MAP strategy is presented below:
+
+\begin{algorithm}
+\caption{Maximum Adjusted Penalty}
+\label{maximumadjustedpenalty}
+\KwIn{Input stream $\sigma = \sigma_1, \sigma_2 \ldots \sigma_n$ \newline Buffer
+$B$ of size $k$}
+\KwOut{Stream $\rho = \rho_1, \rho_2, \ldots \rho_n$}
+\SetKwFunction{add}{add}
+\SetKwFunction{remove}{remove}
+\SetKwFunction{computeMaximumAdjustedPenalty}{computeMaximumAdjustedPenalty}
+Initialize the buffer, $B \gets NIL$ \;
+\For{$i \gets 1$ \KwTo $n$}{
+	\uIf{$|B| < k$}{
+		\add($\sigma_i$) \;
+	} 
+	\Else{
+		\uIf{$c(\rho) \in B$}{
+			$c(\sigma) \gets c(\rho)$
+		}
+		\Else{
+			$c(\sigma) \gets$ \computeMaximumAdjustedPenalty($B$) \;
+		}
+		\remove($c(\sigma)$) \;
+		\add($\sigma_i$) \;
+	}
+}
+\While{$|B| \neq NIL$}{
+	\uIf{$c(\rho) \in B$}{
+		$c(\sigma) \gets c(\rho)$
+	}
+	\Else{
+		$c(\sigma) \gets$ \computeMaximumAdjustedPenalty($B$) \;
+	}
+	\remove($c(\sigma)$) \;
+}
+\end{algorithm}
+
+\begin{function*}
+\caption{computeMaximumAdjustedPenalty($B$)}
+\label{mapfn}
+\KwIn{Buffer $B$ of size $k$}{
+\ForEach{colour $c$ in $B$}{
+	$P_c \gets n_c . b_c$}
+}
+
+\ForEach{colour $c'$ in $B$}{
+	\ForEach{colour $c$ in $B$}{
+		\uIf{$P_c - k . b_c \geq P_c' - k . b_c'$}{
+			$flag \gets$ true for colour $c'$ \;	
+			}
+		}
+	}
+$P_{c'} \gets 0$ \;
+return $c'$ \;
+\end{function*}
+
+\section{Random Choice} \label{rc}
+The Random Choice strategy (RC) is a more practical variant of the MAP strategy
+which avoids the computational overhead of MAP. Items are added into the
+buffer until the buffer is full. When the buffer is full, the RC strategy
+selects the current output colour randomly from the different colours that are
+currently in the buffer. Appropriate random number generators have to be used
+to generate random numbers. The RC strategy can also be seen as a randomized
+variation of the MCF or the BW strategies. The pseudo-code for the RC strategy
+is presented below:
+
+\begin{algorithm}
+\caption{Random Choice}
+\label{randomchoice}
+\KwIn{Input stream $\sigma = \sigma_1, \sigma_2 \ldots \sigma_n$ \newline Buffer
+$B$ of size $k$}
+\KwOut{Stream $\rho = \rho_1, \rho_2, \ldots \rho_n$}
+\SetKwFunction{add}{add}
+\SetKwFunction{remove}{remove}
+Initialize the buffer, $B \gets NIL$ \;
+\For{$i \gets 1$ \KwTo $n$}{
+	\uIf{$|B| < k$}{
+		\add($\sigma_i$) \;
+	} 
+	\Else{
+		\uIf{$c(\rho) \in B$}{
+			$c(\sigma) \gets c(\rho)$
+		}
+		\Else{
+			$c(\sigma) \gets$ generate random numbers to select a colour from $B$ \;
+		}
+		\remove($c(\sigma)$) \;
+		\add($\sigma_i$) \;
+	}
+}
+\While{$|B| \neq NIL$}{
+	\uIf{$c(\rho) \in B$}{
+		$c(\sigma) \gets c(\rho)$ \;
+	}
+	\Else{
+		$c(\sigma) \gets$ generate random numbers to select a colour from $B$ \;
+	}
+	\remove($c(\sigma)$) \;
+}
+\end{algorithm}
+
+\section{Round Robin} \label{rr}
+The Round Robin strategy is an efficient variant of the RC strategy, which uses
+a selection pointer to select the current output colour. When the next active
+colour is to be chosen, it advances the selection pointer to the next item in
+the buffer, this colour is chosen to be the current output colour and all items
+this colour are removed until there is no more item of this colour to be
+removed. This strategy can also be modified to be a variation of the MCF or the
+BW strategy. The pseudo-code for the RR strategy is presented below:
+
+\begin{algorithm}
+\caption{Round Robin}
+\label{roundrobin}
+\KwIn{Input stream $\sigma = \sigma_1, \sigma_2 \ldots \sigma_n$ \newline Buffer
+$B$ of size $k$ \newline Selection Pointer $p$ which can have values between
+$1,2\ldots k$}
+\KwOut{Stream $\rho = \rho_1, \rho_2, \ldots \rho_n$}
+\SetKwFunction{add}{add}
+\SetKwFunction{remove}{remove}
+Initialize the buffer, $B \gets NIL$ \;
+\For{$i \gets 1$ \KwTo $n$}{
+	\uIf{$|B| < k$}{
+		\add($\sigma_i$) \;
+	} 
+	\Else{
+		\uIf{$c(\rho) \in B$}{
+			$c(\sigma) \gets c(\rho)$
+		}
+		\Else{
+			$p \gets p+1$
+			\uIf{$p > k$}{
+				$p \gets p \% k$ \;
+			}
+			$c(\sigma) \gets c(p)$ \;
+		}
+		\remove($c(\sigma)$) \;
+		\add($\sigma_i$) \;
+	}
+}
+\While{$|B| \neq NIL$}{
+	\uIf{$c(\rho) \in B$}{
+		$c(\sigma) \gets c(\rho)$ \;
+	}
+	\Else{
+		$c(\sigma) \gets c(p)$ \;
+	}
+	\remove($c(\sigma)$) \;
+}
+\end{algorithm}
+
+\section{Threshold or Lowest Cost} \label{tlc}
+The Threshold or Lowest Cost (TLC) \cite{avigdor2013improved}, strategy evicts
+one item at each step of the algorithm. For the first $k$ steps the input items are 
+stored in the sorting
+buffer, and the elimination happens one element at each step from steps, $k +
+1, k + 2, \ldots k + n$. We use the notation $B_j$ to denote the contents of the
+buffer at step $j$. The algorithm maintains a counter for each input item in the
+buffer, we denote this counter as $\phi_j^i$, which is element $i's$ counter
+at step $j$. The counters $\phi_j^i$ are monotonically non-decreasing in $j$ and
+$\phi_j^i = 0$ for all $j < i$. The counters are only updated when we make a
+paid colour as described below. \\
+
+At each step, the algorithm selects an active colour and removes one item of
+this colour from the buffer at each step until the buffer has no more items of
+this colour. At this point the algorithm selects a new active colour, and this
+is done as follows: if there is a colour $c$ in the buffer such that $\sum_{i
+\in B_j \wedge c(i) = c} \phi_j^i \geq w(c)$, then choose $\sum_{i
+\in B_j \wedge c(i) = c} \phi_j^i \geq w(c)$, any such colour $c$ to
+be the new active colour. If there is no such colour $c$, then select the colour
+$c$ with the lowest cost $w(c)$ and update the counters and follows: add the
+quantity $\frac{w(c)}{k}$ to all the items in the buffer. The pseudo-code for
+the TLC strategy is presented below:  
+
+
+\begin{algorithm}
+\caption{TLC}
+\label{tlcpseudocode}
+\KwIn{Input stream $I = 1 \ldots N$ \newline Buffer
+$B$ of size $k$}
+\KwOut{Output Stream $O = \pi\{1 \ldots N\}$}
+\SetKwFunction{add}{add}
+\SetKwFunction{RemoveTLC}{RemoveTLC}
+\SetKwFunction{TLCActiveColour}{TLCActiveColour}
+Initialize the buffer, $B \gets NIL$ \;
+\While{$|B| \leq k$}{
+	\add($i$) \;
+}
+Initialize $c_{active} \gets -1$ \;
+\For{$i \gets k + 1$ \KwTo $N$}{
+	\uIf{$c_{active} \notin B$}{
+		$c_{active} \gets \TLCActiveColour(B)$ \;
+	}
+	\RemoveTLC($c_{active}$) \;
+	\add($i$) \;
+}
+\While{$|B| \neq NIL$}{
+	\uIf{$c_{active} \notin B$}{
+		$c_{active} \gets \TLCActiveColour(B)$ \;
+	}
+	\RemoveTLC($c_{active}$) \;
+}
+\end{algorithm}
+
+\begin{function*}
+\caption{TLCActiveColour($B$)}
+\label{tlcfunc}
+\KwIn{Buffer $B$ of size $k$}
+\KwOut{New active colour $c_{active}$}{
+\For{every item $i \in B$}{
+	$S^c = \sum_{c(i) = c} \Phi_i$ \;
+}
+$c_{active} \gets c_{min}$ \;
+\For{every item $i \in B$}{
+	$\sigma_c = S^c$ \;
+	\uIf{$\sigma_c \geq w(c)$}{
+		$c_{active} \gets c$ \;
+		\KwRet{$c_{active}$} \;
+	}
+}
+add $\frac{w(c_{min})}{k}$ to the counter $\Phi_i$ of every item in the buffer \;
+\KwRet{$c_{active}$} \;
+}
+\end{function*}
+
+\begin{function*}
+\caption{RemoveTLC($c_{active}$)}
+\label{removetlc}
+\KwIn{colour $c_{active}$}{
+remove the first item of colour $c_{active}$ from the buffer \;
+}
+\end{function*}

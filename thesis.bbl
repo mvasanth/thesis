@@ -1,0 +1,91 @@
+\begin{thebibliography}{10}
+\newcommand{\enquote}[1]{``#1''}
+
+\bibitem{racke2002online}
+H.~R{\"a}cke, C.~Sohler, and M.~Westermann.
+\newblock \enquote{Online scheduling for sorting buffers.}
+\newblock In \enquote{Algorithms—ESA 2002,} pages 820--832. Springer (2002).
+
+\bibitem{krokowski2004reducing}
+J.~Krokowski, H.~R{\"a}cke, C.~Sohler, and M.~Westermann.
+\newblock \enquote{Reducing state changes with a pipeline buffer.}
+\newblock In \enquote{VMV,} page 217 (2004).
+
+\bibitem{englert2005reordering}
+M.~Englert and M.~Westermann.
+\newblock \enquote{Reordering buffer management for non-uniform cost models.}
+\newblock In \enquote{Automata, Languages and Programming,} pages 627--638.
+  Springer (2005).
+
+\bibitem{kohrt2004constant}
+J.~S. Kohrt and K.~Pruhs.
+\newblock \emph{A constant approximation algorithm for sorting buffers}.
+\newblock Springer (2004).
+
+\bibitem{bar20059}
+R.~Bar-Yehuda and J.~Laserson.
+\newblock \enquote{9-approximation algorithm for sorting buffers.}
+\newblock In \enquote{Proceedings of the 3rd Workshop on Approximation and
+  Online Algorithms,} Citeseer (2005).
+
+\bibitem{avigdor2013constant}
+N.~Avigdor-Elgrabli and Y.~Rabani.
+\newblock \enquote{A constant factor approximation algorithm for reordering
+  buffer management.}
+\newblock In \enquote{SODA,} pages 973--984. SIAM (2013).
+
+\bibitem{avigdor2013optimal}
+N.~Avigdor-Elgrabli and Y.~Rabani.
+\newblock \enquote{An optimal randomized online algorithm for reordering buffer
+  management.}
+\newblock \emph{arXiv preprint arXiv:1303.3386}  (2013).
+
+\bibitem{englert2009evaluation}
+M.~Englert, H.~R{\"o}glin, and M.~Westermann.
+\newblock \enquote{Evaluation of online strategies for reordering buffers.}
+\newblock \emph{Journal of Experimental Algorithmics (JEA)} \textbf{14}, 3
+  (2009).
+
+\bibitem{aboud2008correlation}
+A.~Aboud.
+\newblock \emph{Correlation clustering with penalties and approximating the
+  recordering buffer management problem}.
+\newblock Ph.D. thesis, Master’s thesis, The Technion-Israel Institute of
+  Technology, Janurary 2008.[Technion TR archive]. 29 (2008).
+
+\bibitem{avigdor2013improved}
+N.~Avigdor-Elgrabli and Y.~Rabani.
+\newblock \enquote{An improved competitive algorithm for reordering buffer
+  management.}
+\newblock In \enquote{Foundations of Computer Science (FOCS), 2013 IEEE 54th
+  Annual Symposium on,} pages 1--10. IEEE (2013).
+
+\bibitem{adamaszek2012optimal}
+A.~Adamaszek, A.~Czumaj, M.~Englert, and H.~R{\"a}cke.
+\newblock \enquote{Optimal online buffer scheduling for block devices.}
+\newblock In \enquote{Proceedings of the 44th symposium on Theory of
+  Computing,} pages 589--598. ACM (2012).
+
+\bibitem{adamaszek2011almost}
+A.~Adamaszek, A.~Czumaj, M.~Englert, and H.~R{\"a}cke.
+\newblock \enquote{Almost tight bounds for reordering buffer management.}
+\newblock In \enquote{Proceedings of the 43rd annual ACM symposium on Theory of
+  computing,} pages 607--616. ACM (2011).
+
+\bibitem{azar2014generalized}
+Y.~Azar, M.~Englert, I.~Gamzu, and E.~Kidron.
+\newblock \enquote{Generalized reordering buffer management.}
+\newblock In \enquote{LIPIcs-Leibniz International Proceedings in Informatics,}
+  volume~25. Schloss Dagstuhl-Leibniz-Zentrum fuer Informatik (2014).
+
+\bibitem{im2014new}
+S.~Im and B.~Moseley.
+\newblock \enquote{New approximations for reordering buffer management.}
+\newblock In \enquote{SODA,} pages 1093--1111. SIAM (2014).
+
+\bibitem{adamaszek2013reordering}
+A.~Adamaszek, M.~P. Renault, A.~Ros{\'e}n, and R.~van Stee.
+\newblock \enquote{Reordering buffer management with advice.}
+\newblock WAOA (2013).
+
+\end{thebibliography}

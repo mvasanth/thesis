@@ -1,0 +1,55 @@
+\contentsline {chapter}{Abstract}{ii}
+\contentsline {chapter}{Acknowledgments}{iii}
+\contentsline {chapter}{Table of Contents}{iv}
+\contentsline {chapter}{List of Tables}{vi}
+\contentsline {chapter}{List of Figures}{vii}
+\contentsline {chapter}{ \numberline {1}Introduction}{1}
+\contentsline {section}{\numberline {1.1}Motivation}{1}
+\contentsline {section}{\numberline {1.2}Problem Definition}{3}
+\contentsline {section}{\numberline {1.3}Contributions}{4}
+\contentsline {section}{\numberline {1.4}Results Summary}{5}
+\contentsline {section}{\numberline {1.5}Organization of the thesis}{5}
+\contentsline {chapter}{ \numberline {2}Previous Work}{6}
+\contentsline {section}{\numberline {2.1}Reordering Buffers}{6}
+\contentsline {chapter}{ \numberline {3}Existing Algorithms/Pseudocodes}{9}
+\contentsline {section}{\numberline {3.1}Preliminaries}{10}
+\contentsline {section}{\numberline {3.2}Generic Pseudocodes/Generic Methods}{11}
+\contentsline {section}{\numberline {3.3}First In First Out}{12}
+\contentsline {section}{\numberline {3.4}Least Recently Used}{12}
+\contentsline {section}{\numberline {3.5}Largest Colour First}{15}
+\contentsline {section}{\numberline {3.6}Bounded Waste}{15}
+\contentsline {section}{\numberline {3.7}Maximum Adjusted Penalty}{17}
+\contentsline {section}{\numberline {3.8}Random Choice}{17}
+\contentsline {section}{\numberline {3.9}Round Robin}{19}
+\contentsline {section}{\numberline {3.10}Threshold or Lowest Cost}{20}
+\contentsline {chapter}{ \numberline {4}New Algorithm}{23}
+\contentsline {section}{\numberline {4.1}Preliminaries}{23}
+\contentsline {section}{\numberline {4.2}New Algorithm/ModifiedTLC}{24}
+\contentsline {section}{\numberline {4.3}Analysis}{25}
+\contentsline {chapter}{ \numberline {5}Implementation and Experiments}{27}
+\contentsline {section}{\numberline {5.1}Data Sets}{27}
+\contentsline {section}{\numberline {5.2}Cost Functions}{29}
+\contentsline {section}{\numberline {5.3}Implementation Details}{30}
+\contentsline {section}{\numberline {5.4}Experiments and Results}{33}
+\contentsline {subsection}{\numberline {5.4.1}Uniform Cost}{34}
+\contentsline {subsubsection}{Alternation Sequences}{35}
+\contentsline {subsubsection}{Delta Sequences}{36}
+\contentsline {subsubsection}{Random Sequences}{37}
+\contentsline {subsubsection}{Random Block Sequences}{38}
+\contentsline {subsubsection}{Sequential Block Sequences}{39}
+\contentsline {subsection}{\numberline {5.4.2}Non-Uniform Cost}{41}
+\contentsline {subsubsection}{Alternation Sequences}{41}
+\contentsline {subsubsection}{Delta Sequences}{45}
+\contentsline {subsubsection}{Random Sequences}{50}
+\contentsline {subsubsection}{Random Block Sequences}{53}
+\contentsline {subsubsection}{Sequential Block Sequences}{58}
+\contentsline {subsection}{\numberline {5.4.3}Comparing TLC and TLC' for Large Data}{63}
+\contentsline {subsubsection}{Alternation Sequences}{65}
+\contentsline {subsubsection}{Delta Sequences}{67}
+\contentsline {subsubsection}{Random Sequences}{69}
+\contentsline {subsubsection}{Random Block Sequences}{70}
+\contentsline {subsubsection}{Sequential Block Sequences}{72}
+\contentsline {chapter}{ \numberline {6}Conclusion and Future Work}{75}
+\contentsline {section}{\numberline {6.1}Conclusions}{75}
+\contentsline {subsection}{\numberline {6.1.1}Uniform Cost}{75}
+\contentsline {chapter}{List of References}{76}

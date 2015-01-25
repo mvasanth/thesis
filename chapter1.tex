@@ -1,0 +1,122 @@
+\chapter{Introduction} \label{ch:intro}
+
+The Sorting Buffers or the Reordering Buffer Management Problem was first
+introduced in 2002 by R\"acke, Sohler and Westermann, \cite{racke2002online}. In
+this problem, a stream of $N$ items which are characterized by the same
+attribute are to be processed by a server. A change in the attribute value
+between two consecutive items incurs a cost. For the sake of simplicity we assume the attribute to be it's ``colour''. R\"acke et al. proposed that this cost can be
+minimized by placing a $k$ ($k < N$) slot random access buffer before the
+server. The buffer can be used to permute or reorder the input stream in such a
+way that we have long sub-sequences of items of the same colour in the output sequence thereby minimizing the the cost of switching between colours. Our goal is to reorder the input sequence using the buffer such that the cost of switching between colours is minimized. 
+
+\section{Motivation} \label{motivation}
+
+This problem has many applications in computer science and economics.
+Recent advances in the area of computer game development has led to many
+sophisticated games that consist of rendering millions of 3D polygons with
+different attributes which involves switching
+between different attributes like colour and texture of the polygons
+being rendered. Constant switching between attributes while rendering can
+cause delays and disrupt the smooth rendering of different scenes in a video
+game. In this case it would be beneficial to render all items of one attribute 
+before the other since the cost incurred by switching between textures and colours is 
+substantial. This has necessitated the need for cost efficient strategies to enable
+smooth rendering of multiple attributes in computer games. Reordering buffers
+can be used to permute the stream of polygons to render large sub-sequences of
+the same attribute, thereby minimizing the cost and delays in a graphics
+rendering system. 
+
+Another application of the sorting buffers problem arises in network
+communication system where a server has to send packets to different nodes on a
+network. Sending packets to a particular node in the network involves a
+startup cost incurred at the receiving node. In this case it is beneficial for
+the server to wait for all the packets for a particular node to arrive at the
+server rather than constant switching between the nodes. The sorting buffer would ensure 
+that the server first has all the packets intended for a particular node before
+data transmission. 
+
+A paradigm shift in data storage techniques has resulted in most companies to
+store large amounts of data on a cloud based server. Standalone nodes have to
+store and access files from the server on the cloud. Placing a reordering buffer
+on the cloud server has the benefit of sending large number of files to the
+designated machine thereby reducing the cost of switching between different
+standalone nodes.
+
+Reordering buffers can also be used to improve the performance of file servers. A
+high capacity file server consists of many files which are either open or
+closed. Read and write accesses to these files can be performed only when the
+particular file is open. Opening a closed file incurs a cost. Hence a reordering
+buffer can be used to reorder read and write accesses in such a way that all
+reads and writes and performed to a file that is currently open. 
+
+A preliminary application of the reordering buffers can be seen in the car
+painting plant where a sequence of cars are to be painted with a final colour. A
+cost is incurred if two consecutive cars are to be painted with different
+colours. This cost can be minimized by reordering the sequence of the cars to be
+painted using a reordering buffer. 
+
+\section{Problem Definition}
+
+In the \textit{Reordering Buffer Management} problem, we have an input sequence of $N$ items, each of these items are characterized by a particular attribute, which we refer to as the colour of the item.  The defining characteristic of this problem is that there is a cost incurred when switching between two items of different colours. There are $C$ different colours that can occur in the input stream. Our goal is to permute this input stream in such a way that the cost of switching between items of different colours is minimized. 
+
+R\"acke, Sohler and Westermann \cite{racke2002online}, proposed that this problem can be solved by using a $k (k < N)$ slot random access reordering buffer that can be used to permute the input sequence. Every incoming item is first stored in the reordering buffer, when the buffer gets filled up with the first $k$ items, then we choose to \textit{evict} an item from the buffer and add it to the output sequence making room for the next item from the input sequence. We evict one item at each step of the algorithm. The colour to be evicted from the buffer is based on the reordering algorithm in question. This process of selecting the colour to evict and adding it to the output sequence is performed until the whole input sequence is processed and the buffer is empty. 
+
+We only consider lazy algorithms for our evaluation, a lazy algorithm satisfies
+the following two characteristics: 
+
+\begin{itemize}
+  \item if there is an item in the buffer with the current output colour, then
+  the lazy algorithm does not make a colour change
+  \item if there are vacant slots in the buffer, then the lazy algorithm does not
+  remove items from the buffer
+\end{itemize}
+
+All reordering algorithms should satisfy the condition that the buffer remains empty at the beginning and end of the reordering, that is all the input items have to be processed by the buffer and added to the output sequence. 
+
+\section{Contributions}
+
+In this thesis, we implement different existing reordering buffer algorithms
+and propose a new algorithm for reordering buffers. We also perform various
+experiments that study the behaviour of different algorithms for different
+kinds of input sequences, buffer sizes, colours and cost functions. We use the following
+parameters for our experiments:
+\begin{itemize}
+  \item Input Sequences Types - Alternation, Delta, Random, Random Block and Sequential Block Sequence (refer to Sec \ref{dataSets} for details)
+  \item Input Sequence Sizes
+  \item Buffer Size
+  \item Number of Colours
+  \item Cost Function Type - Uniform, Cost Equals Colour, Cost Equals Quadratic Colour, Random Cost, Colour Difference (refer to Sec \ref{costfns} for details)
+\end{itemize}
+
+The insight gained from these experiments have helped design a new algorithm that works well for different application scenarios. We also recommend suitable algorithms for different application scenarios listed in Sec \ref{motivation}.
+
+\section{Results Summary}
+Summary of results go here 
+
+\begin{table}[ht]
+\caption{Summary of Experimental Results}
+\label{resultsSummary}
+\centering
+\begin{tabular}{l l l l l}
+\hline \hline
+Algorithm & Sequence Types & Cost Function & Applications & Competitive Ratio \\
+\hline
+Bounded Waste & & Uniform & & $O(\log^2 k)$ \\
+Maximum Adjusted Penalty & & & & $O(\log k)$ \\
+Random Choice & & & & \\
+Round Robin & & & & \\
+Threshold or Lowest Cost & & & & $O(\frac{\log k}{\log \log k})$ \\
+New Algorithm & & & & \\
+Optimal Offline LP & & & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Organization of the thesis}
+The rest of the thesis is organized as follows. In Chapter \ref{previouswork},
+we review related literature. In Chapter \ref{algorithms}, we present the
+pseudo-codes for the algorithms that we implement and propose our new algorithm
+for the Reordering Buffer Management problem. In Chapter \ref{implementation}, we describe
+the implementation details and the experimental results for the different
+algorithms. Chapter \ref{conclusion} concludes the thesis with a summary of our
+results and directions for future work.

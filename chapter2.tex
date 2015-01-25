@@ -1,0 +1,30 @@
+\chapter{Previous Work} \label{previouswork}
+
+\section{Reordering Buffers} \label{section2} 
+The problem of Reordering Buffer Management was first introduced by R\"acke, Sohler and Westermann in 2002 \cite{racke2002online}. It was initially called the \textit{Sorting Buffers} problem, where a service station had a buffer called the sorting buffer which was used to permute the input sequence. Each item in the input sequence was characterized by a particular attribute, which we refer to as the "colour" of the item. A random access buffer was used to permute these items such that the output sequence had long sub-sequences of items with the same colour. There was also a cost involved in switching from one colour to another. In their model, the cost of switching between colours was set to be uniform, in that the cost of switching to any colour was the same. Their model is also based on the \textit{online} version of the problem where the input sequence is not known in advance. So the buffer has to work with partial knowledge of the input sequence. In their paper, the prove that strategies like FIFO, LRU and LCF are not suitable for the sorting buffers problem and prove a lower bound of $\Omega(\sqrt{k})$ for FIFO  and LRU, and a lower bound of $\Omega(k)$ for LCF, where $k$ is the buffer size. They also propose a deterministic algorithm called \textit{Bounded Waste} and as with all online algorithms they use \textit{competitive analysis} and prove that their algorithm has a competitive ratio of $O(\log^2(k))$. 
+
+Krokowski \textit{et al.} \cite{krokowski2004reducing}, provide experimental results of the strategies described in \cite{racke2002online} for rendering images with different colours and textures. In addition they also propose the \textit{Random Choice} and \textit{Round Robin} strategy where the former randomly selects an item from the buffer to evict and the latter uses a selection pointer and evicts the item pointed to by the selection pointer. Their experiments reveal that Bounded Waste, Random Choice and Round Robin essentially achieve the same performance with Bounded Waste giving an additional 3\% of reduced state changes. They have reported the results for Round Robin as this is the most simplistic strategy to implement. They also found that this approach reduces the rendering time by 35\% making it time efficient. Simple data structures make this strategy to be efficiently implemented in both hardware and software. 
+
+While Bounded Waste was an efficient strategy for uniform costs, it performed poorly under the non-uniform cost model.  Englert and  Westermann  \cite{englert2005reordering}, proposed a new deterministic strategy called \textit{Maximum Adjusted Penalty} to handle non-uniform costs. If $i$ denotes that item from the input sequence that is currently being processed, $c(i)$ denotes the colour of the item, and $w_c$ denotes the cost of the colour $c$, they defined their cost function to be the following: $w_c = d(c(i), c(i + 1))$. This cost function is specifically suited for applications such as disk scheduling and paging. As in the case of Bounded Waste, they also used competitive analysis and prove that the competitive ratio of their strategy is $O(\log(k))$, where $k$ is the size of the buffer. They also prove that with a buffer size of $k$, any scheduling strategy can reduce the cost of switching by at most $(2k - 1)$. While the competitive ratio was improved to $O(\log(k))$, this strategy is computationally intensive. 
+
+A slight variation of the problem was considered by Kohrt and Pruhs \cite{kohrt2004constant}, in their version of the problem, the input was a sequence of items of different colours and a random access buffer was used to permute these items. But instead of minimizing the number of switches in the output sequence, they considered the maximization objective where their goal was to maximize the number of switches that were eliminated from the input sequence. For example, if the input sequence had 10 items and 9 switches and after permuting the sequence, there were 5 switches, then 4 switches were eliminated from the input sequence. Their objective was to maximize this number. They presented the first polynomial time $\frac{1}{20}$ - approximation algorithm for the maximization problem in the offline setting of the sorting buffers problem.  
+
+9-approximation algorithm for sorting buffers \cite{bar20059} \\ 
+
+A Constant factor Approximation Algorithm for Reordering Buffer Management
+\cite{avigdor2013constant} \\
+An optimal randomized online algorithm for reordering buffer management
+\cite{avigdor2013optimal} \\
+Evaluation of online strategies for reordering buffers
+\cite{englert2009evaluation}\\
+Correlation clustering with penalties and approximating the reordering buffer
+management problem \cite{aboud2008correlation} \\
+An improved competitive algorithm for reordering buffer management
+\cite{avigdor2013improved} \\
+Optimal online buffer scheduling for block devices \cite{adamaszek2012optimal}
+\\
+Almost tight bounds for reordering buffer management \cite{adamaszek2011almost}
+\\
+Generalized reordering buffer management \cite{azar2014generalized} \\
+New Approximations for reordering buffer management \cite{im2014new} \\
+Reordering Buffer Management with Advice \cite{adamaszek2013reordering}
